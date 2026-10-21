@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Açık rıza durumum · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="narrow">
+  <div class="form-card">
+    <h1>Açık rıza durumun</h1>
+    <p>Özel nitelikli kişisel verilerin için <strong>{{ user.special_consent_at|date:"j F Y, H:i" }}</strong> tarihinde, metnin <strong>{{ user.special_consent_version }}</strong> sürümüne açık rıza verdin.</p>
+    <p class="muted">Rızanı geri alırsan, rızana dayanarak işlediğimiz verileri sileriz: <strong>dertlerin, “ben de yaşıyorum” tepkilerin ve gönderdiğin tüm mesajlar</strong>. Açık sohbetlerin kapanır. Hesabın ise kalır.</p>
+
+    <form method="post" action="{% url 'accounts:withdraw_consent' %}" novalidate>
+      {% csrf_token %}
+      {% include "core/_field.html" with field=withdraw_form.password %}
+      <div class="form-actions">
+        <button class="btn btn-danger" type="submit" data-confirm="Rızanı geri alırsan dertlerin ve mesajların kalıcı olarak silinecek. Devam edilsin mi?">Rızamı geri al</button>
+        <a href="{% url 'accounts:settings' %}">Vazgeç</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

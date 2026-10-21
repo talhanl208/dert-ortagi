@@ -1,0 +1,12 @@
+<article class="dert-card cat-{{ dert.category.color }}">
+  <div class="tag-row">
+    <span class="chip">{{ dert.category.emoji }} {{ dert.category.name }}</span>
+    {% if dert.status == "lighter" %}<span class="chip status-lighter">🌤️ Hafifledi</span>{% endif %}
+  </div>
+  <h3><a href="{{ dert.get_absolute_url }}">{{ dert.title }}</a></h3>
+  <p class="excerpt">{{ dert.summary }}</p>
+  <div class="card-foot">
+    <span class="who"><span class="avatar" aria-hidden="true">{{ dert.display_avatar }}</span>{{ dert.display_name }}</span>
+    <span class="tally" title="Destek gönderenler ve aynı derdi yaşayanlar"><span aria-hidden="true">🤗</span> {{ dert.hug_count|add:dert.strength_count }}<span class="visually-hidden"> destek,</span>&ensp;<span aria-hidden="true">🙋</span> {{ dert.metoo_count }}<span class="visually-hidden"> kişi aynı dertte</span></span>
+  </div>
+</article>

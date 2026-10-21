@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Dertler · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="container page-head">
+  <h1>{% if active_category %}{{ active_category.emoji }} {{ active_category.name }}{% else %}Paylaşılan dertler{% endif %}</h1>
+  <p class="muted">Birine sarılmak, “ben de yaşıyorum” demek ya da dert ortağı olmak için bir derde dokun.</p>
+</div>
+
+<div class="container list-layout">
+  <aside class="filter-panel" aria-label="Filtreler">
+    <form class="search-form" method="get" role="search">
+      {% if active_category %}<input type="hidden" name="kategori" value="{{ active_category.slug }}">{% endif %}
+      <label class="visually-hidden" for="ara">Dertlerde ara</label>
+      <input id="ara" type="search" name="q" value="{{ query }}" placeholder="Dertlerde ara" maxlength="80">
+      <button class="btn btn-small btn-quiet" type="submit">Ara</button>
+    </form>
+    <nav aria-label="Kategoriler">
+      <ul class="cat-list">
+        <li><a href="{% url 'dertler:list' %}" {% if not active_category %}aria-current="true"{% endif %}><span aria-hidden="true">🌈</span> Hepsi</a></li>
+        {% for cat in categories %}
+          <li class="cat-{{ cat.color }}"><a href="?kategori={{ cat.slug }}" {% if active_category == cat %}aria-current="true"{% endif %}><span aria-hidden="true">{{ cat.emoji }}</span> {{ cat.name }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </aside>
+
+  <section aria-label="Dert listesi">
+    {% if page.object_list %}
+      <div class="dert-grid">
+        {% for dert in page.object_list %}{% include "dertler/_card.html" %}{% endfor %}
+      </div>
+      {% if page.has_other_pages %}
+      <nav class="pagination" aria-label="Sayfalar">
+        {% if page.has_previous %}<a class="btn btn-small btn-quiet" href="?{% if active_category %}kategori={{ active_category.slug }}&amp;{% endif %}{% if query %}q={{ query|urlencode }}&amp;{% endif %}sayfa={{ page.previous_page_number }}">Önceki</a>{% endif %}
+        <span class="muted">{{ page.number }} / {{ page.paginator.num_pages }}</span>
+        {% if page.has_next %}<a class="btn btn-small btn-quiet" href="?{% if active_category %}kategori={{ active_category.slug }}&amp;{% endif %}{% if query %}q={{ query|urlencode }}&amp;{% endif %}sayfa={{ page.next_page_number }}">Sonraki</a>{% endif %}
+      </nav>
+      {% endif %}
+    {% else %}
+      <div class="empty">
+        <span class="big" aria-hidden="true">🫖</span>
+        {% if query %}
+          <p>“{{ query }}” ile ilgili bir dert bulamadık. Belki bu derdi ilk anlatan sen olursun.</p>
+        {% else %}
+          <p>Bu köşe henüz sessiz. İlk derdi paylaşan sen ol.</p>
+        {% endif %}
+        <a class="btn" href="{% url 'dertler:create' %}{% if active_category %}?kategori={{ active_category.slug }}{% endif %}">Derdini anlat</a>
+      </div>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

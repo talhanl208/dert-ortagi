@@ -1,0 +1,29 @@
+{% extends "core/legal/_base.html" %}
+
+{% block legal %}
+<p class="muted">Sürüm {{ legal_versions.special_data }}</p>
+<p>Bu metin, <a href="{% url 'core:legal' 'aydinlatma-metni' %}">KVKK Aydınlatma Metni</a>'nden ayrı olarak, yalnızca özel nitelikli kişisel verilerin için açık rızanı istemek amacıyla hazırlanmıştır.</p>
+
+<h2>Neye rıza veriyorsun?</h2>
+<p>Dert Ortağı'nda derdini anlatırken veya sohbet ederken; sağlığın (ruh sağlığın dahil), din veya inancın, cinsel hayatın, siyasi düşüncen gibi KVKK'nın 6. maddesinde sayılan özel nitelikli kişisel verilerini <strong>kendi isteğinle</strong> paylaşabilirsin. Açık rıza vererek, bu verilerin yalnızca aşağıdaki amaçlarla işlenmesini kabul edersin:</p>
+<ul>
+  <li>Paylaştığın dertlerin diğer kullanıcılara gösterilmesi,</li>
+  <li>Derdinin, benzer dertleri yaşayan kişiler ve dinleyici gönüllüleriyle eşleştirilmesi,</li>
+  <li>“Ben de yaşıyorum” tepkinin ilgili derdin sahibine gösterilmesi,</li>
+  <li>Kabul ettiğin sohbetlerde mesajlarının karşı tarafa iletilmesi,</li>
+  <li>Bu içeriklerden biri şikayet edilirse moderatörlerce incelenmesi.</li>
+</ul>
+
+<h2>Neye rıza vermiyorsun?</h2>
+<p>Bu veriler reklam, profil çıkarma veya pazarlama için kullanılmaz, satılmaz ve kimseye devredilmez. Yazdıklarından senin hakkında sağlık durumu gibi bir sonuç çıkarılıp kaydedilmez.</p>
+
+<h2>Rıza vermek zorunda mısın?</h2>
+<p>Hayır. Açık rıza vermeden hesap açabilir, dertleri okuyabilir, sarılma ve güç gönderebilirsin. Ancak dert paylaşmak, mesaj göndermek ve “ben de yaşıyorum” demek, doğaları gereği özel nitelikli veri içerebileceği için açık rıza gerektirir.</p>
+
+<h2>Rızanı nasıl geri alırsın?</h2>
+<p>İstediğin zaman <a href="{% url 'accounts:consent' %}">Açık rıza durumum</a> sayfasından geri alabilirsin. Geri aldığında; dertlerin, “ben de yaşıyorum” tepkilerin ve gönderdiğin mesajlar silinir, açık sohbetlerin kapanır. Geri alma, o ana kadar yapılan işlemlerin hukuka uygunluğunu etkilemez.</p>
+
+<h2>Beyan</h2>
+<p class="note">“Açık Rıza Metni'ni okudum. Paylaşacağım dertler ve mesajlarda yer alabilecek sağlık ve diğer özel nitelikli kişisel verilerimin bu metinde açıklanan amaçlarla işlenmesine açık rıza veriyorum.”</p>
+<p class="small muted">Rızan, metnin sürümü ve tarihiyle birlikte kayıt altına alınır.</p>
+{% endblock %}

@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load dert_tags %}
+{% block title %}{{ dert.title }} · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="container detail-layout">
+  <article class="dert-sheet cat-{{ dert.category.color }}">
+    {% if dert.is_hidden %}
+      <p class="hidden-note">Bu dert şu anda yalnızca sana görünüyor: {{ dert.hidden_reason|default:"moderatör incelemesinde." }}</p>
+    {% endif %}
+    <div class="sheet-top">
+      <div class="tag-row">
+        <a class="chip" href="{% url 'dertler:list' %}?kategori={{ dert.category.slug }}">{{ dert.category.emoji }} {{ dert.category.name }}</a>
+        {% if dert.status == "lighter" %}<span class="chip status-lighter">🌤️ Hafifledi</span>{% endif %}
+      </div>
+      {% if user.is_authenticated and not is_owner %}
+      <details class="more-menu">
+        <summary aria-label="Diğer seçenekler">•••</summary>
+        <div class="dropdown">
+          <a href="{% url 'guvenlik:report' 'dert' dert.public_id %}">🚩 Şikayet et</a>
+          <form method="post" action="{% url 'guvenlik:block' 'dert' dert.public_id %}">{% csrf_token %}
+            <button type="submit" class="danger" data-confirm="Bu kişiyi engellemek istediğine emin misin? Birbirinizin dertlerini göremeyecek ve mesajlaşamayacaksınız.">⛔ Bu kişiyi engelle</button>
+          </form>
+        </div>
+      </details>
+      {% endif %}
+    </div>
+
+    <h1>{{ dert.title }}</h1>
+    <div class="byline">
+      <span class="avatar avatar-lg" aria-hidden="true">{{ dert.display_avatar }}</span>
+      <div>
+        <span class="name">{{ dert.display_name }}{% if is_owner %} (sen){% endif %}</span>
+        <span class="small muted">{{ dert.created_at|once }} paylaştı</span>
+      </div>
+    </div>
+
+    <div class="dert-body">{{ dert.summary }}</div>
+
+    <div class="reactions" aria-label="Tepkiler">
+      {% for r in reactions %}
+        {% if user.is_authenticated and not is_owner %}
+          <form method="post" action="{% url 'dertler:react' dert.public_id %}">{% csrf_token %}
+            <input type="hidden" name="kind" value="{{ r.kind }}">
+            <button class="reaction" type="submit" aria-pressed="{% if r.mine %}true{% else %}false{% endif %}">
+              <span aria-hidden="true">{{ r.emoji }}</span> {{ r.label }} <span class="count">{{ r.count }}</span>
+            </button>
+          </form>
+        {% else %}
+          <span class="reaction reaction-static"><span aria-hidden="true">{{ r.emoji }}</span> {{ r.label }} <span class="count">{{ r.count }}</span></span>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% if not user.is_authenticated %}
+      <p class="small muted">Tepki vermek ve sohbet etmek için <a href="{% url 'accounts:login' %}?next={{ request.path|urlencode }}">giriş yap</a> ya da <a href="{% url 'accounts:register' %}">kayıt ol</a>.</p>
+    {% endif %}
+
+    {% if is_owner %}
+      <div class="owner-tools">
+        <form method="post" action="{% url 'dertler:status' dert.public_id %}">{% csrf_token %}
+          <button class="btn btn-small btn-turq" type="submit">{% if dert.status == "lighter" %}Hâlâ devam ediyor{% else %}🌤️ Derdim hafifledi{% endif %}</button>
+        </form>
+        <a class="btn btn-small btn-quiet" href="{% url 'dertler:edit' dert.public_id %}">Düzenle</a>
+        <form method="post" action="{% url 'dertler:delete' dert.public_id %}">{% csrf_token %}
+          <button class="btn btn-small btn-danger" type="submit" data-confirm="Bu derdi kalıcı olarak silmek istiyor musun?">Sil</button>
+        </form>
+      </div>
+    {% endif %}
+  </article>
+
+  <aside class="side-stack">
+    {% if is_owner %}
+      {% if pending_requests %}
+        <div class="panel panel-sun">
+          <h2>{{ pending_requests }} sohbet isteğin var</h2>
+          <p>Biri seninle dertleşmek istiyor. Kabul edip etmemek tamamen sana kalmış.</p>
+          <a class="btn btn-small" href="{% url 'sohbet:inbox' %}">İsteklere bak</a>
+        </div>
+      {% endif %}
+
+      <div class="panel">
+        <h2>Aynı derdi yaşayanlar</h2>
+        {% if metoo_users %}
+          <ul class="mini-list">
+            {% for u in metoo_users %}
+              <li>
+                <span class="avatar" aria-hidden="true">{{ u.avatar }}</span>
+                <span class="grow"><span class="title">{{ u.username }}</span></span>
+                <a class="btn btn-small btn-quiet" href="{% url 'sohbet:match' dert.public_id u.public_id %}">Sohbet iste</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="muted">Henüz kimse “ben de yaşıyorum” demedi. Derdine benzeyen dertler aşağıda.</p>
+        {% endif %}
+      </div>
+
+      <div class="panel panel-turq">
+        <h2>Seninle aynı yolda olanlar</h2>
+        {% if similar %}
+          <ul class="mini-list">
+            {% for s in similar %}
+              <li><span class="avatar" aria-hidden="true">{{ s.display_avatar }}</span><span class="grow"><a class="title" href="{{ s.get_absolute_url }}">{{ s.title }}</a><span class="small muted">{{ s.display_name }}</span></span></li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="muted">Bu konuda sohbete açık başka dert henüz yok.</p>
+        {% endif %}
+      </div>
+    {% else %}
+      <div class="panel panel-sun">
+        <h2>Dert ortağı ol</h2>
+        {% if conversation %}
+          {% if conversation.status == "pending" %}
+            <p>İsteğin gönderildi, yanıt bekleniyor.</p>
+          {% elif conversation.status == "active" %}
+            <p>Bu dert için açık bir sohbetin var.</p>
+          {% else %}
+            <p>Bu dert için sohbetiniz sona erdi.</p>
+          {% endif %}
+          <a class="btn btn-small" href="{{ conversation.get_absolute_url }}">Sohbete git</a>
+        {% elif dert.open_to_chat and dert.status == "active" %}
+          <p>Bir sohbet isteği gönderebilirsin. Kabul edilirse birebir dertleşirsiniz.</p>
+          <a class="btn btn-small" href="{% url 'sohbet:request' dert.public_id %}">Sohbet isteği gönder</a>
+        {% else %}
+          <p>Dert sahibi şu an sohbet isteği almıyor. Bir sarılma göndermek de iyi gelir. 🤗</p>
+        {% endif %}
+      </div>
+
+      {% if similar %}
+      <div class="panel">
+        <h2>Benzer dertler</h2>
+        <ul class="mini-list">
+          {% for s in similar %}
+            <li><span class="avatar" aria-hidden="true">{{ s.display_avatar }}</span><span class="grow"><a class="title" href="{{ s.get_absolute_url }}">{{ s.title }}</a><span class="small muted">{{ s.display_name }}</span></span></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    {% endif %}
+
+    <div class="panel">
+      <blockquote class="mini-quote">“{{ quote.text }}”<cite>{{ quote.source }}</cite></blockquote>
+    </div>
+  </aside>
+</div>
+{% endblock %}

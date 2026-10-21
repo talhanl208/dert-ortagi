@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Dertlerim · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="container page-head">
+  <div class="section-head">
+    <h1>Dertlerim</h1>
+    <a class="btn btn-small" href="{% url 'dertler:create' %}">Yeni dert anlat</a>
+  </div>
+  <p class="muted">Bir derde dokununca aynı şeyi yaşayanları ve sana gelen sohbet isteklerini görürsün.</p>
+</div>
+<div class="container">
+  {% if dertler %}
+    <div class="dert-grid">
+      {% for dert in dertler %}
+        <div>
+          {% include "dertler/_card.html" %}
+          {% if dert.pending %}<p class="small"><a href="{% url 'sohbet:inbox' %}">{{ dert.pending }} yeni sohbet isteği</a></p>{% endif %}
+          {% if dert.is_hidden %}<p class="small muted">Moderasyonda, şu an yalnızca sana görünüyor.</p>{% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty">
+      <span class="big" aria-hidden="true">🌱</span>
+      <p>Henüz bir dert paylaşmadın. Hazır hissettiğinde buradayız.</p>
+      <a class="btn" href="{% url 'dertler:create' %}">Derdini anlat</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

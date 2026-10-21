@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Hesabını sil · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="narrow">
+  <form class="form-card" method="post" novalidate>
+    {% csrf_token %}
+    <h1>Hesabını silmek üzeresin</h1>
+    <p>Bu işlem geri alınamaz. Şunların hepsi kalıcı olarak silinir:</p>
+    <ul class="info-list">
+      <li>Rumuzun, e-postan ve ayarların,</li>
+      <li>Paylaştığın dertler ve verdiğin tepkiler,</li>
+      <li>Dahil olduğun tüm sohbetler ve mesajlar.</li>
+    </ul>
+    <p class="muted small">Moderasyon için açılmış şikayet kayıtları, hukuki yükümlülükler kapsamında <a href="{% url 'core:legal' 'aydinlatma-metni' %}">Aydınlatma Metni</a>'nde yazan süre boyunca saklanabilir. İstersen önce <a href="{% url 'accounts:export' %}">verilerini indir</a>.</p>
+    {% if form.non_field_errors %}<ul class="errorlist nonfield">{% for e in form.non_field_errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+    {% include "core/_field.html" with field=form.password %}
+    {% include "core/_check.html" with field=form.confirm %}
+    <div class="form-actions">
+      <button class="btn btn-danger" type="submit">Hesabımı kalıcı olarak sil</button>
+      <a href="{% url 'accounts:settings' %}">Vazgeç</a>
+    </div>
+    <p class="muted small">“{{ quote.text }}” {{ quote.source }}</p>
+  </form>
+</div>
+{% endblock %}

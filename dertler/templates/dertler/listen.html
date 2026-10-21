@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Dinle · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="container page-head">
+  <h1>Dinlenmeyi bekleyen dertler</h1>
+  <p class="muted">Henüz kimseyle dertleşememiş insanlar. İyi bir dinleyici çözüm sunmak zorunda değildir; anlamaya çalışmak yeter.</p>
+</div>
+<div class="container">
+  {% if not user.is_listener %}
+    <div class="empty">
+      <span class="big" aria-hidden="true">👂</span>
+      <p>Dinleyici gönüllüsü olursan, dinlemek istediğin konulardaki dertler burada görünür.</p>
+      <a class="btn" href="{% url 'accounts:settings' %}">Dinleyici gönüllüsü ol</a>
+    </div>
+  {% elif dertler %}
+    <div class="dert-grid">
+      {% for dert in dertler %}{% include "dertler/_card.html" %}{% endfor %}
+    </div>
+  {% else %}
+    <div class="empty">
+      <span class="big" aria-hidden="true">☀️</span>
+      <p>Şu an seçtiğin konularda bekleyen dert yok. Ne güzel!</p>
+      <a href="{% url 'accounts:settings' %}">Konularımı düzenle</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

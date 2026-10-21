@@ -1,0 +1,38 @@
+{% extends "core/legal/_base.html" %}
+
+{% block legal %}
+<p>Burası herkesin içini rahatça dökebildiği bir çay ocağı olsun. Bunun için birkaç basit kuralımız var.</p>
+
+<h2>🤗 Nazik ol</h2>
+<ul>
+  <li>Önce dinle, sonra konuş. Akıl vermek için acele etme; bazen “anlıyorum” demek yeter.</li>
+  <li>Kimseyi yargılama, küçümseme veya dertleri kıyaslama. Herkesin derdi kendine büyüktür.</li>
+  <li>Bir sohbeti bitirmek isteyen olursa buna saygı göster.</li>
+</ul>
+
+<h2>🎭 Gizliliği koru</h2>
+<ul>
+  <li>Kendi veya başkalarının gerçek adını, telefonunu, adresini, okulunu, iş yerini paylaşma.</li>
+  <li>Kimseden kişisel bilgi, fotoğraf veya sosyal medya hesabı isteme.</li>
+  <li>Gerçek hayatta buluşma teklif etme.</li>
+  <li>Sohbetlerin ekran görüntüsünü alıp başka yerlerde paylaşma.</li>
+</ul>
+
+<h2>⛔ Kesinlikle yasak</h2>
+<ul>
+  <li>Taciz, zorbalık, hakaret, tehdit veya şiddet,</li>
+  <li>Cinsel içerik, cinsel teklif veya uygunsuz yaklaşım,</li>
+  <li>Nefret söylemi ve ayrımcılık,</li>
+  <li>Para isteme, satış, reklam, dolandırıcılık,</li>
+  <li>Kendine zarar vermeyi veya intiharı teşvik etmek ya da yöntem anlatmak,</li>
+  <li>18 yaşından küçüklerin platformu kullanması,</li>
+  <li>Başka biri gibi davranmak, sahte veya birden çok hesap açmak,</li>
+  <li>Kendini psikolog, doktor gibi gösterip teşhis koymak veya ilaç önermek.</li>
+</ul>
+
+<h2>🛟 Biri zor durumdaysa</h2>
+<p>Konuştuğun kişi kendine zarar vermekten bahsediyorsa onu yargılamadan dinle, yalnız olmadığını söyle ve <a href="{% url 'core:support' %}">destek hatlarına</a> yönlendir. Ardından “Kendine zarar verme riski” seçeneğiyle şikayet et; moderatörler öncelikli bakar. Hayati tehlike varsa beklemeden 112'yi ara.</p>
+
+<h2>🚩 Kurallara uymayan biri olursa</h2>
+<p>Engelle ve şikayet et. Engellediğin kişi sana bir daha ulaşamaz ve bundan haberdar edilmez. Kurallara uymayanların içerikleri kaldırılır, hesapları askıya alınabilir.</p>
+{% endblock %}

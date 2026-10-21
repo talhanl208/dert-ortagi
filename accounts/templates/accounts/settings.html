@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Ayarlar ve gizlilik · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="container split">
+  <form class="form-card" method="post" novalidate>
+    {% csrf_token %}
+    <h1>Ayarlar</h1>
+    <p class="muted">Rumuzun: <strong>{{ user.username }}</strong></p>
+
+    <fieldset>
+      <legend>{{ form.avatar.label }}</legend>
+      <div class="avatar-grid">
+        {% for radio in form.avatar %}
+          <span>{{ radio.tag }}<label for="{{ radio.id_for_label }}" title="{{ radio.choice_label }}"><span aria-hidden="true">{{ radio.data.value }}</span><span class="visually-hidden">{{ radio.choice_label }}</span></label></span>
+        {% endfor %}
+      </div>
+      {{ form.avatar.errors }}
+    </fieldset>
+
+    {% include "core/_field.html" with field=form.email %}
+
+    <fieldset>
+      <legend>Dinleyici gönüllülüğü</legend>
+      {% include "core/_check.html" with field=form.is_listener %}
+      <div class="field">
+        <span class="label">{{ form.listener_categories.label }}</span>
+        <div class="choice-chips">
+          {% for box in form.listener_categories %}
+            <span class="cat-{{ box.data.value.instance.color }}">{{ box.tag }}<label for="{{ box.id_for_label }}">{{ box.choice_label }}</label></span>
+          {% endfor %}
+        </div>
+        <span class="helptext">Hiç seçmezsen tüm konular gösterilir.</span>
+      </div>
+    </fieldset>
+
+    <div class="form-actions">
+      <button class="btn" type="submit">Kaydet</button>
+    </div>
+  </form>
+
+  <aside class="aside side-stack">
+    <div class="panel">
+      <h2>Gizlilik ve verilerin</h2>
+      <ul class="mini-list">
+        <li><a href="{% url 'accounts:consent' %}">Açık rıza durumum</a></li>
+        <li><a href="{% url 'accounts:export' %}">Verilerimi indir (JSON)</a></li>
+        <li><a href="{% url 'guvenlik:blocked' %}">Engellediklerim</a></li>
+        <li><a href="{% url 'accounts:password_change' %}">Parolamı değiştir</a></li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h2>Hesabını sil</h2>
+      <p class="muted">Dertlerin, mesajların ve tüm hesap verilerin kalıcı olarak silinir.</p>
+      <a class="btn btn-small btn-danger" href="{% url 'accounts:delete' %}">Hesabımı sil</a>
+    </div>
+  </aside>
+</div>
+{% endblock %}

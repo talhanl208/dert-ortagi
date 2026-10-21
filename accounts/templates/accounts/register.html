@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Kayıt ol · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="container split">
+  <form class="form-card" method="post" novalidate>
+    {% csrf_token %}
+    <h1>Aramıza hoş geldin</h1>
+    <p class="muted">Yalnızca bir rumuz ve parola yeter. Gerçek adını, telefonunu ya da fotoğrafını istemiyoruz.</p>
+    {% if form.non_field_errors %}<ul class="errorlist nonfield">{% for e in form.non_field_errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+
+    <div class="field">
+      <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+      <div class="nick-row">
+        {{ form.username }}
+        <button class="btn btn-small btn-quiet" type="button" data-nick-dice hidden>🎲 Başka öner</button>
+      </div>
+      <span class="helptext">{{ form.username.help_text }}</span>
+      {{ form.username.errors }}
+    </div>
+    {% include "core/_field.html" with field=form.email %}
+    {% include "core/_field.html" with field=form.password1 %}
+    {% include "core/_field.html" with field=form.password2 %}
+
+    {% include "core/_check.html" with field=form.is_adult %}
+    {% include "core/_check.html" with field=form.accept_terms %}
+
+    <p class="small muted">
+      Kişisel verilerinin nasıl işlendiğini <a href="{% url 'core:legal' 'aydinlatma-metni' %}" target="_blank" rel="noopener">KVKK Aydınlatma Metni</a>'nde anlattık.
+      <a href="{% url 'core:legal' 'kullanim-kosullari' %}" target="_blank" rel="noopener">Kullanım Koşulları</a> ve
+      <a href="{% url 'core:legal' 'topluluk-kurallari' %}" target="_blank" rel="noopener">Topluluk Kuralları</a> yeni sekmede açılır.
+    </p>
+
+    <div class="form-actions">
+      <button class="btn" type="submit">Hesabımı oluştur</button>
+      <span class="muted">Hesabın var mı? <a href="{% url 'accounts:login' %}">Giriş yap</a></span>
+    </div>
+  </form>
+
+  <aside class="aside side-stack">
+    <div class="panel panel-turq">
+      <h2>Neden rumuz?</h2>
+      <p>Dertlerini rahatça anlatabilmen için kimliğini bilmemize gerek yok. Rumuzun herkese görünür, e-postan ise kimseye.</p>
+    </div>
+    <div class="panel">
+      <h2>Açık rıza ayrı bir adım</h2>
+      <p>Dert yazmak sağlık gibi hassas bilgiler içerebilir. Bu yüzden kayıttan sonra, isteğe bağlı ve ayrı bir açık rıza adımı göreceksin.</p>
+    </div>
+  </aside>
+</div>
+{{ nick_words|json_script:"nick-words" }}
+{% endblock %}

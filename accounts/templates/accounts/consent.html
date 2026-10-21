@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Açık rıza · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="container split">
+  <form class="form-card" method="post" novalidate>
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+    <h1>Bir şey daha, sonra çaylar demde</h1>
+    <p>Derdini anlatırken ya da sohbet ederken sağlığınla, inançlarınla veya hayatının çok özel yanlarıyla ilgili bilgiler paylaşabilirsin. KVKK bunları <strong>özel nitelikli kişisel veri</strong> sayar ve özenle korunmasını ister.</p>
+    <p>Bu tür bilgileri yalnızca senin açık rızanla, aşağıdaki amaçlarla işleriz:</p>
+    <ul class="info-list">
+      <li>Derdini başkalarına göstermek ve benzer dertte olanlarla eşleştirmek,</li>
+      <li>Kabul ettiğin sohbetlerde mesajlarını karşı tarafa iletmek,</li>
+      <li>Şikayet edilen içerikleri moderatörlerin incelemesi.</li>
+    </ul>
+    <p>Rıza vermek zorunda değilsin. Vermezsen dertleri okuyabilir, sarılma ve güç gönderebilirsin; ancak dert yazamaz, mesaj gönderemez ve “ben de yaşıyorum” diyemezsin. Rızanı istediğin an <a href="{% url 'accounts:settings' %}">ayarlardan</a> geri alabilirsin.</p>
+    <p><a href="{% url 'core:legal' 'acik-riza-metni' %}" target="_blank" rel="noopener">Açık Rıza Metni'nin tamamını oku</a></p>
+
+    {% include "core/_check.html" with field=form.consent %}
+
+    <div class="form-actions">
+      <button class="btn" type="submit">Rıza veriyorum</button>
+      <a href="{% url 'dertler:list' %}">Şimdilik geç</a>
+    </div>
+  </form>
+  <aside class="aside side-stack">
+    <div class="panel panel-sun">
+      <h2>Kısaca</h2>
+      <p>Verilerini satmayız, reklam için kullanmayız. Sitede üçüncü taraf takip aracı, analiz servisi ya da dışarıdan yüklenen yazı tipi yoktur. Özel mesajların yönetim panelinde listelenmez; moderatörler yalnızca şikayet edilen mesajın kopyasını görür.</p>
+    </div>
+  </aside>
+</div>
+{% endblock %}

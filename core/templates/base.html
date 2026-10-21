@@ -1,0 +1,114 @@
+{% load static %}<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Dert Ortağı: derdini anlat, aynı derdi yaşayanlarla eşleş, dinlemeye gönüllü insanlarla dertleş.">
+  <meta name="referrer" content="same-origin">
+  <title>{% block title %}Dert Ortağı{% endblock %}</title>
+  <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
+  <link rel="preload" href="{% static 'fonts/nunito-var-latin-tr.woff' %}" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="{% static 'css/site.css' %}">
+  <script src="{% static 'js/ui.js' %}" defer></script>
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <a class="skip-link" href="#icerik">İçeriğe geç</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="{% url 'core:home' %}">
+        {% include "core/_tea.html" with uid="logo" steam=False %}
+        Dert Ortağı
+      </a>
+
+      {% url 'dertler:list' as list_url %}
+      {% url 'sohbet:inbox' as inbox_url %}
+      {% url 'dertler:listen' as listen_url %}
+      <nav class="nav-links" aria-label="Ana menü">
+        <a href="{{ list_url }}" {% if request.path == list_url %}aria-current="page"{% endif %}>Dertler</a>
+        {% if user.is_authenticated %}
+          {% if user.is_listener %}<a href="{{ listen_url }}" {% if request.path == listen_url %}aria-current="page"{% endif %}>Dinle</a>{% endif %}
+          <a href="{{ inbox_url }}" {% if request.path == inbox_url %}aria-current="page"{% endif %}>Sohbetler{% if inbox_badge %}<span class="badge" aria-label="{{ inbox_badge }} yeni">{{ inbox_badge }}</span>{% endif %}</a>
+          <a class="btn btn-small" href="{% url 'dertler:create' %}">Derdini anlat</a>
+          <details class="user-menu">
+            <summary><span class="avatar" aria-hidden="true">{{ user.avatar }}</span>{{ user.username }}</summary>
+            <div class="dropdown">
+              <a href="{% url 'dertler:mine' %}">Dertlerim</a>
+              <a href="{% url 'accounts:settings' %}">Ayarlar ve gizlilik</a>
+              <a href="{% url 'guvenlik:blocked' %}">Engellediklerim</a>
+              <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button type="submit">Çıkış yap</button></form>
+            </div>
+          </details>
+        {% else %}
+          <a href="{% url 'accounts:login' %}">Giriş yap</a>
+          <a class="btn btn-small" href="{% url 'accounts:register' %}">Kayıt ol</a>
+        {% endif %}
+      </nav>
+
+      <details class="mobile-menu">
+        <summary>Menü{% if inbox_badge %}<span class="badge">{{ inbox_badge }}</span>{% endif %}</summary>
+        <div class="dropdown">
+          <a href="{{ list_url }}">Dertler</a>
+          {% if user.is_authenticated %}
+            <a href="{% url 'dertler:create' %}">Derdini anlat</a>
+            {% if user.is_listener %}<a href="{{ listen_url }}">Dinle</a>{% endif %}
+            <a href="{{ inbox_url }}">Sohbetler{% if inbox_badge %} ({{ inbox_badge }}){% endif %}</a>
+            <a href="{% url 'dertler:mine' %}">Dertlerim</a>
+            <a href="{% url 'accounts:settings' %}">Ayarlar ve gizlilik</a>
+            <a href="{% url 'guvenlik:blocked' %}">Engellediklerim</a>
+            <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button type="submit">Çıkış yap</button></form>
+          {% else %}
+            <a href="{% url 'accounts:login' %}">Giriş yap</a>
+            <a href="{% url 'accounts:register' %}">Kayıt ol</a>
+          {% endif %}
+          <a href="{% url 'core:support' %}">Acil destek hatları</a>
+        </div>
+      </details>
+    </div>
+  </header>
+
+  {% if messages %}
+  <div class="container flash-stack" role="status">
+    {% for message in messages %}
+      {% if "crisis-other" in message.tags %}
+        <div class="crisis-box">
+          <h2>Endişeni bizimle paylaştığın için teşekkürler</h2>
+          <p>Birinin hayatının tehlikede olduğunu düşünüyorsan beklemeden <strong>112</strong>'yi ara. Moderatörlerimiz şikayetini öncelikli olarak inceleyecek.</p>
+        </div>
+      {% elif "crisis" in message.tags %}
+        {% include "core/_crisis_box.html" %}
+      {% else %}
+        <div class="flash {{ message.tags }}">{{ message }}</div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <main id="icerik">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-alert">
+      <div class="container">
+        Hayati tehlike varsa <a href="tel:112">112</a>'yi ara. Dert Ortağı arkadaşça bir dayanışma alanıdır, profesyonel psikolojik destek yerine geçmez. <a href="{% url 'core:support' %}">Destek hatları</a>
+      </div>
+    </div>
+    <div class="container footer-grid">
+      <blockquote class="footer-quote">
+        “{{ gunun_sozu.text }}” <cite>{{ gunun_sozu.source }}</cite>
+      </blockquote>
+      <ul>
+        <li><a href="{% url 'core:legal' 'aydinlatma-metni' %}">KVKK Aydınlatma Metni</a></li>
+        <li><a href="{% url 'core:legal' 'acik-riza-metni' %}">Açık Rıza Metni</a></li>
+        <li><a href="{% url 'core:legal' 'kullanim-kosullari' %}">Kullanım Koşulları</a></li>
+        <li><a href="{% url 'core:legal' 'topluluk-kurallari' %}">Topluluk Kuralları</a></li>
+        <li><a href="{% url 'core:legal' 'cerez-politikasi' %}">Çerez Politikası</a></li>
+        <li><a href="{% url 'core:support' %}">Destek hatları</a></li>
+      </ul>
+    </div>
+  </footer>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,104 @@
+{% extends "core/legal/_base.html" %}
+
+{% block legal %}
+<p class="muted">Sürüm {{ legal_versions.privacy }}</p>
+<p class="note">Dert Ortağı açık kaynak bir örnek projedir. Projeyi canlıya alan kişi veya kurum veri sorumlusu olur; bu metni kendi bilgileriyle güncellemeli ve bir hukukçuya kontrol ettirmelidir.</p>
+
+<p>Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu'nun (“KVKK”) 10. maddesi ve Aydınlatma Yükümlülüğünün Yerine Getirilmesinde Uyulacak Usul ve Esaslar Hakkında Tebliğ uyarınca, Dert Ortağı'nı kullanırken kişisel verilerinin nasıl işlendiğini anlatmak için hazırlanmıştır.</p>
+
+<h2>1. Veri sorumlusu</h2>
+<p>{{ controller.name }}<br>Adres: {{ controller.address }}<br>İletişim: {{ controller.contact }}</p>
+
+<h2>2. Hangi verilerini işliyoruz?</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Veri kategorisi</th><th>Örnekler</th></tr></thead>
+  <tbody>
+    <tr><td>Kimlik (takma ad)</td><td>Rumuz, seçtiğin emoji avatar</td></tr>
+    <tr><td>İletişim</td><td>E-posta adresi (isteğe bağlı, yalnızca parola sıfırlama için)</td></tr>
+    <tr><td>Kullanıcı işlem verileri</td><td>Paylaştığın dertler, tepkiler, sohbet istekleri ve mesajlar, engellemeler, dinleyici tercihleri</td></tr>
+    <tr><td>İşlem güvenliği</td><td>Parolanın geri döndürülemez özeti (scrypt), oturum bilgisi, son giriş zamanı, kötüye kullanımı önlemek için IP adresinin tuzlanmış özeti</td></tr>
+    <tr><td>Hukuki işlem</td><td>Onay ve rıza kayıtları, şikayet kayıtları</td></tr>
+    <tr><td>Özel nitelikli kişisel veriler</td><td>Dertlerinde ve mesajlarında kendi isteğinle paylaşabileceğin sağlık, din, cinsel hayat gibi bilgiler (yalnızca <a href="{% url 'core:legal' 'acik-riza-metni' %}">açık rızanla</a>)</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Gerçek ad-soyad, T.C. kimlik numarası, telefon numarası, fotoğraf veya konum <strong>toplamıyoruz</strong>. 18 yaşından büyük olduğunu yalnızca bir onay kutusuyla beyan edersin; doğum tarihini saklamayız.</p>
+
+<h2>3. Hangi amaçlarla işliyoruz?</h2>
+<ul>
+  <li>Hesabını oluşturmak, girişini sağlamak ve yönetmek,</li>
+  <li>Derdini yayınlamak, benzer dertleri yaşayanları ve dinleyici gönüllülerini seninle eşleştirmek,</li>
+  <li>Kabul ettiğin sohbetlerde mesajlarını karşı tarafa iletmek,</li>
+  <li>Topluluk güvenliğini sağlamak: şikayetleri incelemek, engellemeleri uygulamak, kötüye kullanımı önlemek,</li>
+  <li>Bilgi güvenliğini sağlamak (ör. kaba kuvvet saldırılarına karşı hız sınırlama),</li>
+  <li>Hukuki yükümlülüklerimizi yerine getirmek ve yetkili mercilerin taleplerini yanıtlamak,</li>
+  <li>KVKK kapsamındaki başvurularını yanıtlamak.</li>
+</ul>
+
+<h2>4. Hukuki sebepler</h2>
+<ul>
+  <li><strong>Sözleşmenin kurulması ve ifası</strong> (KVKK m.5/2-c): hesap, rumuz, e-posta ve platformu kullanırken oluşan veriler.</li>
+  <li><strong>Hukuki yükümlülük</strong> (m.5/2-ç): 5651 sayılı Kanun dahil mevzuattan doğan yükümlülükler.</li>
+  <li><strong>Bir hakkın tesisi, kullanılması veya korunması</strong> (m.5/2-e): şikayet ve moderasyon kayıtları.</li>
+  <li><strong>Meşru menfaat</strong> (m.5/2-f): bilgi güvenliği ve kötüye kullanımın önlenmesi.</li>
+  <li><strong>Açık rıza</strong> (m.6/3-a): dertlerde ve mesajlarda paylaşabileceğin özel nitelikli kişisel veriler. Bu rıza kayıttan ayrı ve isteğe bağlıdır.</li>
+</ul>
+
+<h2>5. Kimler görebilir, kimlere aktarılır?</h2>
+<ul>
+  <li><strong>Diğer kullanıcılar:</strong> Dertlerin herkese açıktır ve rumuzunla (ya da “Anonim dert ortağı” olarak) görünür. Mesajlarını yalnızca sohbet ettiğin kişi görür. “Ben de yaşıyorum” dediğin derdin sahibi rumuzunu görür.</li>
+  <li><strong>Moderatörler:</strong> Özel mesajlar yönetim panelinde listelenmez. Moderatörler yalnızca şikayet edilen içeriği, şikayet anındaki kopyasıyla görür.</li>
+  <li><strong>Barındırma hizmeti sağlayıcısı:</strong> Sunucu hizmeti veri işleyen sıfatıyla.</li>
+  <li><strong>Yetkili kamu kurum ve kuruluşları:</strong> Yalnızca kanunen zorunlu olduğunda ve talep edildiğinde.</li>
+</ul>
+<p><strong>Yurt dışına aktarım:</strong> Varsayılan kurulumda yurt dışına aktarım yapılmaz. Sitede reklam, analiz veya takip aracı yoktur; yazı tipleri dahil tüm dosyalar bu sunucudan sunulur. Sunucu yurt dışında barındırılırsa KVKK m.9 kapsamında ayrıca değerlendirme yapılmalı ve bu metin güncellenmelidir.</p>
+
+<h2>6. Toplama yöntemi</h2>
+<p>Verilerin, sitedeki formları doldurduğunda ve siteyi kullandığında elektronik ortamda, kısmen otomatik yollarla (ör. oturum çerezi) toplanır.</p>
+
+<h2>7. Ne kadar süre saklıyoruz?</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Veri</th><th>Süre</th></tr></thead>
+  <tbody>
+    <tr><td>Hesap bilgileri</td><td>Hesabını silene kadar. {{ retention.inactive_accounts }} gün boyunca giriş yapılmayan hesaplar silinir.</td></tr>
+    <tr><td>Dertler ve tepkiler</td><td>Sen silene, açık rızanı geri alana veya hesabını silene kadar. Moderasyonla gizlenen dertler {{ retention.hidden_dertler }} gün sonra silinir.</td></tr>
+    <tr><td>Sohbetler ve mesajlar</td><td>Sohbet açıkken saklanır; sohbet bittikten veya reddedildikten {{ retention.closed_conversations }} gün sonra silinir.</td></tr>
+    <tr><td>Şikayet kayıtları</td><td>Sonuçlandıktan {{ retention.resolved_reports }} gün sonra silinir.</td></tr>
+    <tr><td>Rıza kayıtları</td><td>Hesap süresince.</td></tr>
+    <tr><td>IP adresi özeti</td><td>Yalnızca geçici bellekte, en fazla 1 saat.</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Süresi dolan veriler <code>kvkk_temizlik</code> komutuyla düzenli olarak silinir.</p>
+
+<h2>8. Otomatik işlemler</h2>
+<ul>
+  <li>Benzer dertler, kategori ve kelime benzerliğine göre listelenir.</li>
+  <li>Herkese açık dertlerde telefon, e-posta, bağlantı ve sosyal medya hesabı paylaşılmasını, gizliliğini korumak için engelleriz.</li>
+  <li>Yazdıklarında kendine zarar vermeyle ilgili ifadeler görürsek sana yalnızca destek hatlarını gösteririz. Bu tespit hiçbir yere kaydedilmez ve kimseyle paylaşılmaz.</li>
+  <li>{{ report_threshold }} farklı kişi tarafından şikayet edilen bir dert, bir moderatör inceleyene kadar geçici olarak gizlenir. Nihai kararı her zaman bir insan verir; bu işleme itiraz edebilirsin.</li>
+</ul>
+
+<h2>9. Güvenlik</h2>
+<p>Parolalar geri döndürülemez biçimde özetlenir, bağlantılar canlı ortamda HTTPS ile şifrelenir ve sayfalar katı bir içerik güvenliği politikasıyla sunulur. Mesajlar <strong>uçtan uca şifreli değildir</strong>; sunucuda saklanır. Bu yüzden kimlik numarası, adres, banka bilgisi gibi bilgileri kimseyle paylaşmamanı öneririz.</p>
+
+<h2>10. Hakların (KVKK m.11)</h2>
+<p>Veri sorumlusuna başvurarak:</p>
+<ul>
+  <li>Kişisel verilerinin işlenip işlenmediğini öğrenme,</li>
+  <li>İşlenmişse buna ilişkin bilgi talep etme,</li>
+  <li>İşlenme amacını ve bunların amacına uygun kullanılıp kullanılmadığını öğrenme,</li>
+  <li>Yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri bilme,</li>
+  <li>Eksik veya yanlış işlenmişse düzeltilmesini isteme,</li>
+  <li>KVKK m.7'deki şartlar çerçevesinde silinmesini veya yok edilmesini isteme,</li>
+  <li>Düzeltme ve silme işlemlerinin, verilerin aktarıldığı üçüncü kişilere bildirilmesini isteme,</li>
+  <li>Münhasıran otomatik sistemlerle analiz edilmesi sonucu aleyhine bir sonuç çıkmasına itiraz etme,</li>
+  <li>Kanuna aykırı işleme nedeniyle zarara uğrarsan zararın giderilmesini talep etme</li>
+</ul>
+<p>haklarına sahipsin.</p>
+
+<h2>11. Nasıl başvurabilirsin?</h2>
+<p>Bu hakların bir kısmını site içinden hemen kullanabilirsin: <a href="{% url 'accounts:export' %}">verilerini indirebilir</a>, <a href="{% url 'accounts:consent' %}">açık rızanı geri alabilir</a>, <a href="{% url 'accounts:delete' %}">hesabını silebilirsin</a>. Diğer talepler için Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ'de sayılan yöntemlerle {{ controller.contact }} adresine başvurabilirsin. Başvurun en geç 30 gün içinde ve kural olarak ücretsiz yanıtlanır.</p>
+{% endblock %}

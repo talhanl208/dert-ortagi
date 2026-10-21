@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Biraz yavaşlayalım · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="narrow error-page">
+  <p class="code" aria-hidden="true">🫖</p>
+  <h1>Biraz yavaşlayalım</h1>
+  <p class="muted">Kısa sürede çok fazla istek geldi. Bir çay molası ver, yaklaşık {{ wait_minutes }} dakika sonra tekrar dene.</p>
+  <a class="btn btn-quiet" href="/">Ana sayfaya dön</a>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "core/legal/_base.html" %}
+
+{% block legal %}
+<p>Dert Ortağı yalnızca sitenin çalışması için <strong>zorunlu</strong> çerezleri kullanır. Reklam, analiz, sosyal medya veya başka herhangi bir üçüncü taraf çerezi yoktur; bu yüzden karşına çerez onay penceresi çıkmaz.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Çerez</th><th>Ne işe yarar?</th><th>Süre</th></tr></thead>
+  <tbody>
+    <tr><td><code>sessionid</code></td><td>Giriş yaptığını hatırlar. Yalnızca rastgele bir oturum anahtarı içerir.</td><td>14 gün veya çıkış yapana kadar</td></tr>
+    <tr><td><code>csrftoken</code></td><td>Formların senin adına başka bir site tarafından gönderilmesini engeller (CSRF koruması).</td><td>1 yıl</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>Bu çerezler JavaScript tarafından okunamaz (<code>HttpOnly</code>), yalnızca bu siteye gönderilir (<code>SameSite=Lax</code>) ve canlı ortamda yalnızca şifreli bağlantı üzerinden iletilir (<code>Secure</code>).</p>
+<p>Zorunlu çerezler KVKK m.5/2-c (sözleşmenin ifası) ve m.5/2-f (meşru menfaat, bilgi güvenliği) kapsamında işlenir. Tarayıcı ayarlarından çerezleri silebilirsin; ancak bu durumda giriş yapamazsın.</p>
+{% endblock %}

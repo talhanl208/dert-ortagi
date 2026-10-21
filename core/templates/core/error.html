@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="narrow error-page">
+  <p class="code" aria-hidden="true">{{ code }}</p>
+  <h1>{{ title }}</h1>
+  {% if code == 404 %}
+    <p class="muted">Aradığın sayfa taşınmış, silinmiş ya da hiç var olmamış olabilir.</p>
+  {% elif code == 403 %}
+    <p class="muted">Bu işlem için yetkin yok. Oturumun sona ermiş olabilir; sayfayı yenileyip tekrar dene.</p>
+  {% else %}
+    <p class="muted">Sorunu kaydettik. Birkaç dakika sonra tekrar dener misin?</p>
+  {% endif %}
+  <a class="btn" href="/">Ana sayfaya dön</a>
+</div>
+{% endblock %}

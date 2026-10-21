@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Destek hatları · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="narrow support-hero">
+  <h1>Şu an desteğe ihtiyacın varsa</h1>
+  <p>Dert Ortağı bir kriz hizmeti değildir. Kendin ya da bir başkası için hayati bir tehlike varsa lütfen beklemeden profesyonel yardım al.</p>
+
+  <div class="big-lines">
+    {% for line in emergency_lines %}
+      <a class="big-line" href="tel:{{ line.number }}">
+        <strong>{{ line.number }}</strong>
+        <span class="name">{{ line.name }}</span>
+        <span class="muted">{{ line.desc }}</span>
+      </a>
+    {% endfor %}
+  </div>
+
+  <h2>Başka nereden destek alabilirsin?</h2>
+  <ul class="info-list">
+    <li>En yakın hastanenin acil servisine başvurabilirsin.</li>
+    <li>Aile hekimin seni bir ruh sağlığı uzmanına yönlendirebilir.</li>
+    <li>Üniversite öğrencisiysen okulunun psikolojik danışmanlık biriminden ücretsiz destek alabilirsin.</li>
+    <li>Güvendiğin bir aile üyesine, arkadaşına ya da öğretmenine ne hissettiğini anlatmak da iyi bir başlangıçtır.</li>
+  </ul>
+
+  <h2>Bir başkası için endişeleniyorsan</h2>
+  <p>Onu yargılamadan dinle, yalnız olmadığını hissettir ve profesyonel destek almasını cesaretlendir. Dert Ortağı'ndaki biri için endişeleniyorsan içeriği “Kendine zarar verme riski” seçeneğiyle şikayet et; moderatörler öncelikli olarak inceler.</p>
+
+  <p class="small muted">Numaralar Türkiye içindir. Bilgiler değişebilir; canlıya almadan önce güncelliğini kontrol et.</p>
+</div>
+{% endblock %}

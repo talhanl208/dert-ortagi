@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <div>
+      <p class="hero-proverb">Derdini söylemeyen derman bulamaz.</p>
+      <span class="hero-source">Atasözü</span>
+      <p class="hero-lead">Dert Ortağı, içini dökebileceğin, aynı yoldan geçenlerle tanışabileceğin ve dinlemeye gönüllü insanlarla dertleşebileceğin sıcak bir köşe. Çaylar bizden.</p>
+      <div class="button-row">
+        <a class="btn" href="{% url 'dertler:create' %}">Derdini anlat</a>
+        <a class="btn btn-quiet" href="{% url 'dertler:list' %}">Dertlere göz at</a>
+      </div>
+    </div>
+    {% include "core/_tea.html" with uid="hero" steam=True svg_class="tea-art" %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>Nasıl işliyor?</h2></div>
+    <ol class="steps">
+      <li>
+        <h3>Anlat</h3>
+        <p>Derdine bir başlık ve kısa bir özet yaz, konusunu seç. İstersen rumuzunu bile gizle.</p>
+      </li>
+      <li>
+        <h3>Eşleş</h3>
+        <p>Aynı şeyi yaşayanlar “Ben de yaşıyorum” der. Benzer dertleri ve dinlemeye gönüllü kişileri sana gösteririz.</p>
+      </li>
+      <li>
+        <h3>Dertleş</h3>
+        <p>Sohbet isteklerini sen kabul edersin. Kabul etmediğin kimse sana tek bir mesaj bile yazamaz.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section safety">
+  <div class="container">
+    <div class="section-head"><h2>Burada güvendesin</h2></div>
+    <div class="safety-grid">
+      <div><span class="icon" aria-hidden="true">🎭</span><h3>Rumuzla katılırsın</h3><p>Gerçek adını, fotoğrafını, telefonunu istemiyoruz. Avatarın bir emoji.</p></div>
+      <div><span class="icon" aria-hidden="true">🚪</span><h3>Kapı senin elinde</h3><p>Sohbet ancak sen istek kabul edince başlar ve istediğin an bitirebilirsin.</p></div>
+      <div><span class="icon" aria-hidden="true">🛡️</span><h3>Engelle ve şikayet et</h3><p>Seni rahatsız eden biri olursa tek tıkla engelle. Şikayetler moderatörlere gider.</p></div>
+      <div><span class="icon" aria-hidden="true">🗝️</span><h3>Verin senin</h3><p>Verilerini indirebilir, açık rızanı geri alabilir, hesabını tamamen silebilirsin.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>Son paylaşılan dertler</h2>
+      <a href="{% url 'dertler:list' %}">Hepsini gör</a>
+    </div>
+    {% if latest %}
+      <div class="dert-grid">
+        {% for dert in latest %}{% include "dertler/_card.html" %}{% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">
+        <span class="big" aria-hidden="true">🫖</span>
+        <p>Çaylar demlendi, ilk derdi paylaşan sen ol.</p>
+        <a class="btn" href="{% url 'dertler:create' %}">Derdini anlat</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="quote-band">
+  <div class="container">
+    <blockquote>
+      {{ band_quote.text }}
+      <cite>{{ band_quote.source }}</cite>
+    </blockquote>
+  </div>
+</section>
+{% endblock %}

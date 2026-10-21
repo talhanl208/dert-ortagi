@@ -1,0 +1,44 @@
+{% extends "core/legal/_base.html" %}
+
+{% block legal %}
+<p class="muted">Sürüm {{ legal_versions.terms }}</p>
+
+<h2>1. Kabul</h2>
+<p>Dert Ortağı'na kayıt olarak bu Kullanım Koşulları'nı ve <a href="{% url 'core:legal' 'topluluk-kurallari' %}">Topluluk Kuralları</a>'nı kabul etmiş olursun. Kabul etmiyorsan lütfen hesap oluşturma.</p>
+
+<h2>2. Dert Ortağı nedir, ne değildir?</h2>
+<p>Dert Ortağı, insanların dertlerini paylaştığı ve birbirine destek olduğu bir dayanışma platformudur. Kullanıcılar gönüllüdür.</p>
+<p><strong>Dert Ortağı;</strong> psikolojik danışmanlık, terapi, tıbbi teşhis veya tedavi, hukuki danışmanlık ya da kriz müdahale hizmeti <strong>değildir</strong>. Diğer kullanıcıların söyledikleri profesyonel tavsiye yerine geçmez. Kendin veya bir başkası için hayati tehlike söz konusuysa hemen <strong>112</strong>'yi ara.</p>
+
+<h2>3. Üyelik</h2>
+<ul>
+  <li>Dert Ortağı'nı yalnızca <strong>18 yaş ve üzeri</strong> kişiler kullanabilir.</li>
+  <li>Rumuzun gerçek adını, başka birinin adını veya yanıltıcı bir unvanı (ör. “Moderatör”, “Psikolog”) içeremez.</li>
+  <li>Hesabının ve parolanın güvenliğinden sen sorumlusun. Hesabını başkasına kullandırmamalısın.</li>
+</ul>
+
+<h2>4. Paylaştığın içerikler</h2>
+<ul>
+  <li>Paylaştığın içeriklerin sahibi sensin. Dert Ortağı'na yalnızca bu içerikleri platformda göstermek ve iletmek için sınırlı, devredilemez bir izin verirsin. İçeriği sildiğinde bu izin sona erer.</li>
+  <li>Başkalarının kişisel verilerini (adını, fotoğrafını, iletişim bilgisini) paylaşmamalısın.</li>
+  <li>Paylaştığın içeriklerden hukuken sen sorumlusun.</li>
+</ul>
+
+<h2>5. Yasak davranışlar</h2>
+<p>Taciz, tehdit, nefret söylemi, cinsel içerik veya teklif, dolandırıcılık, para veya kişisel bilgi isteme, reklam, sahte hesap açma, kendine zarar vermeyi teşvik etme ve sistemin güvenliğini tehlikeye atmaya yönelik her türlü girişim yasaktır. Ayrıntılar <a href="{% url 'core:legal' 'topluluk-kurallari' %}">Topluluk Kuralları</a>'ndadır.</p>
+
+<h2>6. Moderasyon</h2>
+<p>Kurallara aykırı içerikler gizlenebilir veya kaldırılabilir; hesaplar uyarılabilir, askıya alınabilir veya kapatılabilir. Bir karara itiraz etmek istersen {{ controller.contact }} adresine yazabilirsin.</p>
+
+<h2>7. Sorumluluğun sınırı</h2>
+<p>Dert Ortağı, kullanıcıların birbirine verdiği tavsiyelerin doğruluğunu garanti etmez. Platform “olduğu gibi” sunulur; kesintisiz veya hatasız çalışacağı garanti edilmez. Kanunen sınırlanamayacak sorumluluklar saklıdır.</p>
+
+<h2>8. Hesabın sona ermesi</h2>
+<p>Hesabını istediğin zaman <a href="{% url 'accounts:delete' %}">ayarlardan silebilirsin</a>. Verilerin, <a href="{% url 'core:legal' 'aydinlatma-metni' %}">Aydınlatma Metni</a>'nde belirtilen istisnalar dışında silinir.</p>
+
+<h2>9. Değişiklikler</h2>
+<p>Bu koşullar güncellenebilir. Önemli değişikliklerde sürüm numarası artırılır ve gerekirse yeniden onayın istenir.</p>
+
+<h2>10. Uygulanacak hukuk</h2>
+<p>Bu koşullara Türkiye Cumhuriyeti hukuku uygulanır.</p>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ page_title }} · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="container legal-layout">
+  <nav class="legal-nav" aria-label="Yasal metinler">
+    <ul>
+      {% for slug, page in legal_pages.items %}
+        <li><a href="{% url 'core:legal' slug %}" {% if slug == current_slug %}aria-current="page"{% endif %}>{{ page.1 }}</a></li>
+      {% endfor %}
+    </ul>
+  </nav>
+  <article class="prose">
+    <h1>{{ page_title }}</h1>
+    {% block legal %}{% endblock %}
+  </article>
+</div>
+{% endblock %}

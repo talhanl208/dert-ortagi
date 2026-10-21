@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}{% if editing %}Derdini düzenle{% else %}Derdini anlat{% endif %} · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="container split">
+  <form class="form-card" method="post" novalidate>
+    {% csrf_token %}
+    <h1>{% if editing %}Derdini düzenle{% else %}Derdini anlat{% endif %}</h1>
+    {% if not editing %}<p class="muted">Ne kadarını anlatacağına sen karar verirsin. Burada kimse seni yargılamaz.</p>{% endif %}
+    {% if form.non_field_errors %}<ul class="errorlist nonfield">{% for e in form.non_field_errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+
+    <fieldset>
+      <legend>{{ form.category.label }}</legend>
+      <div class="choice-chips">
+        {% for radio in form.category %}
+          <span class="cat-{{ radio.data.label.color }}">
+            {{ radio.tag }}
+            <label for="{{ radio.id_for_label }}"><span aria-hidden="true">{{ radio.data.label.emoji }}</span> {{ radio.data.label.name }}</label>
+          </span>
+        {% endfor %}
+      </div>
+      {{ form.category.errors }}
+    </fieldset>
+
+    {% include "core/_field.html" with field=form.title %}
+    {% include "core/_field.html" with field=form.summary %}
+
+    <fieldset>
+      <legend>Gizlilik ve sohbet</legend>
+      {% include "core/_check.html" with field=form.is_anonymous %}
+      {% include "core/_check.html" with field=form.open_to_chat %}
+      {% include "core/_check.html" with field=form.show_to_listeners %}
+    </fieldset>
+
+    <div class="form-actions">
+      <button class="btn" type="submit">{% if editing %}Değişiklikleri kaydet{% else %}Derdimi paylaş{% endif %}</button>
+      <a href="{% if editing %}{{ dert.get_absolute_url }}{% else %}{% url 'dertler:list' %}{% endif %}">Vazgeç</a>
+    </div>
+  </form>
+
+  <aside class="aside side-stack">
+    <div class="panel panel-sun">
+      <h2>Yazmadan önce</h2>
+      <ul class="info-list">
+        <li>Gerçek adını, telefonunu, okulunu ya da adresini yazma. İletişim bilgisi içeren dertler yayınlanmaz.</li>
+        <li>Başka birinden bahsediyorsan onun da kimliğini gizle.</li>
+        <li>Derdin herkese açık görünür. Rumuzunu gizlemek istersen kutucuğu işaretle.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h2>Şu an kendini güvende hissetmiyor musun?</h2>
+      <p>Hayati bir tehlike varsa beklemeden <a href="tel:112">112</a>'yi ara. <a href="{% url 'core:support' %}">Diğer destek hatları</a></p>
+    </div>
+    {% if quote %}
+    <div class="panel panel-turq">
+      <blockquote class="mini-quote">“{{ quote.text }}”<cite>{{ quote.source }}</cite></blockquote>
+    </div>
+    {% endif %}
+  </aside>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="narrow">
+  <div class="form-card">
+    <h1>{{ title }}</h1>
+    {% if intro %}<p class="muted">{{ intro }}</p>{% endif %}
+    {% if message %}<p>{{ message }}</p>{% endif %}
+    {% if validlink is False %}
+      <p>Bu bağlantı geçersiz ya da süresi dolmuş. Yeni bir sıfırlama bağlantısı isteyebilirsin.</p>
+      <a class="btn" href="{% url 'accounts:password_reset' %}">Yeni bağlantı iste</a>
+    {% elif form %}
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}<ul class="errorlist nonfield">{% for e in form.non_field_errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+        {% for field in form %}{% include "core/_field.html" %}{% endfor %}
+        <div class="form-actions"><button class="btn" type="submit">{{ submit|default:"Gönder" }}</button></div>
+      </form>
+    {% else %}
+      <a class="btn" href="{% if user.is_authenticated %}{% url 'dertler:list' %}{% else %}{% url 'accounts:login' %}{% endif %}">Devam et</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

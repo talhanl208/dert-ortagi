@@ -1,0 +1,10 @@
+<div class="crisis-box">
+  <h2>Şu an çok zor bir yerde olabilirsin, yalnız değilsin 💛</h2>
+  <p>Yazdıklarından şu an çok zorlandığını anlıyoruz ve bunu paylaşman çok değerli. Lütfen şu an güvende olduğundan emin ol ve beklemeden gerçek bir insandan destek al:</p>
+  <div class="lines">
+    {% for line in emergency_lines %}
+      <a class="line" href="tel:{{ line.number }}"><strong>{{ line.number }}</strong><span><b>{{ line.name }}</b><br>{{ line.desc }}</span></a>
+    {% endfor %}
+  </div>
+  <p class="small muted">En yakın hastanenin acil servisine de başvurabilirsin. Güvendiğin birine, bir aile üyesine ya da arkadaşına şu an ne hissettiğini söylemek de iyi bir adım. Dert Ortağı bir kriz hizmeti değildir.</p>
+</div>
