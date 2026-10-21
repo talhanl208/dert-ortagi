@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Sohbet · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="narrow">
+  <section class="chat-shell" aria-label="Sohbet">
+    <header class="chat-head">
+      <a href="{% url 'sohbet:inbox' %}" aria-label="Sohbetlere dön">←</a>
+      <span class="avatar" aria-hidden="true">{{ who.avatar }}</span>
+      <div class="grow">
+        <span class="name">{{ who.name }}</span>
+        <span class="sub">{% if conv.dert %}<a href="{{ conv.dert.get_absolute_url }}">{{ conv.dert.title }}</a>{% else %}Silinmiş bir dert{% endif %}</span>
+      </div>
+      <details class="more-menu">
+        <summary aria-label="Sohbet seçenekleri">•••</summary>
+        <div class="dropdown">
+          <a href="{% url 'guvenlik:report' 'sohbet' conv.public_id %}">🚩 Kişiyi şikayet et</a>
+          <form method="post" action="{% url 'guvenlik:block' 'sohbet' conv.public_id %}">{% csrf_token %}
+            <button type="submit" class="danger" data-confirm="Bu kişiyi engellersen sohbet kapanır ve bir daha sana ulaşamaz. Emin misin?">⛔ Engelle</button>
+          </form>
+          {% if conv.is_open %}
+          <form method="post" action="{% url 'sohbet:close' conv.public_id %}">{% csrf_token %}
+            <button type="submit" data-confirm="Sohbeti bitirmek istiyor musun?">{% if conv.status == "pending" %}İsteği geri çek{% else %}Sohbeti bitir{% endif %}</button>
+          </form>
+          {% endif %}
+        </div>
+      </details>
+    </header>
+
+    <p class="safety-strip">Adres, telefon, okul gibi bilgilerini paylaşmadan önce iki kez düşün. Seni rahatsız eden biri olursa engelle ve şikayet et.</p>
+
+    <ol class="chat-log" id="chat-log"
+        data-poll-url="{% url 'sohbet:poll' conv.public_id %}"
+        data-last-id="{{ last_id }}"
+        data-status="{{ conv.status }}"
+        aria-live="polite">
+      {% if conv.intro %}
+        <li class="intro-card">
+          <span class="label">{% if conv.initiator_id == user.pk %}Gönderdiğin istek{% else %}{{ who.name }} sohbet istedi{% endif %}</span>
+          {{ conv.intro }}
+        </li>
+      {% endif %}
+      {% for m in chat_messages %}
+        <li class="bubble{% if m.sender_id == user.pk %} mine{% endif %}">
+          <div class="text">{{ m.body }}</div>
+          <div class="meta">
+            <time datetime="{{ m.created_at|date:'c' }}">{{ m.created_at|time:"H:i" }}</time>
+            {% if m.sender_id != user.pk %}<a href="{% url 'guvenlik:report' 'mesaj' m.public_id %}">Şikayet et</a>{% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ol>
+
+    {% if conv.status == "active" %}
+      <form class="composer" id="yaz" method="post" action="{% url 'sohbet:send' conv.public_id %}" novalidate>
+        {% csrf_token %}
+        <label class="visually-hidden" for="{{ form.body.id_for_label }}">Mesajın</label>
+        {{ form.body }}
+        <button class="btn" type="submit">Gönder</button>
+      </form>
+    {% elif conv.status == "pending" and is_recipient %}
+      <div class="chat-state">
+        <p><strong>{{ who.name }}</strong> seninle dertleşmek istiyor. Kabul edersen birbirinize yazabilirsiniz.</p>
+        <div class="button-row">
+          <form method="post" action="{% url 'sohbet:accept' conv.public_id %}">{% csrf_token %}<button class="btn" type="submit">Kabul et</button></form>
+          <form method="post" action="{% url 'sohbet:decline' conv.public_id %}">{% csrf_token %}<button class="btn btn-quiet" type="submit">Reddet</button></form>
+        </div>
+      </div>
+    {% elif conv.status == "pending" %}
+      <div class="chat-state"><p class="muted">İsteğin iletildi. Kabul edildiğinde burada yazışmaya başlayabilirsin. ⏳</p></div>
+    {% elif conv.status == "declined" %}
+      <div class="chat-state"><p class="muted">Bu istek kabul edilmedi. Bu kişisel değil; herkesin dertleşmeye hazır olduğu bir zaman farklıdır.</p></div>
+    {% else %}
+      <div class="chat-state"><p class="muted">Bu sohbet sona erdi. Dertleştiğiniz için teşekkürler. 🌻</p></div>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}
+
+{% block scripts %}<script src="{% static 'js/sohbet.js' %}" defer></script>{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Sohbet isteği · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="narrow">
+  <form class="form-card" method="post" novalidate>
+    {% csrf_token %}
+    {% if target %}
+      <h1>{{ target.username }} ile dertleş</h1>
+      <p class="muted">{{ target.username }} da “{{ dert.title }}” derdini yaşadığını söyledi. Ona kısa bir mesajla kendini tanıt. Kabul ederse sohbet başlar.</p>
+    {% else %}
+      <h1>Dert ortağı ol</h1>
+      <p class="muted">“{{ dert.title }}” derdinin sahibine kısa bir mesajla kendini tanıt. Kabul ederse sohbet başlar.</p>
+    {% endif %}
+    {% include "core/_field.html" with field=form.intro %}
+    <div class="panel panel-sun small">
+      <strong>İyi bir dert ortağı:</strong> önce dinler, yargılamaz, akıl vermek için acele etmez ve kişisel bilgi istemez.
+    </div>
+    <div class="form-actions">
+      <button class="btn" type="submit">İsteği gönder</button>
+      <a href="{{ dert.get_absolute_url }}">Vazgeç</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Şikayet et · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="narrow">
+  <form class="form-card" method="post" novalidate>
+    {% csrf_token %}
+    <h1>{% if target == "dert" %}Bu derdi şikayet et{% elif target == "mesaj" %}Bu mesajı şikayet et{% else %}{{ label }} kişisini şikayet et{% endif %}</h1>
+    <p class="muted">Şikayetin gizlidir; karşı taraf kimin şikayet ettiğini görmez. Moderatörler {% if target == "mesaj" %}yalnızca bu mesajın kopyasını{% elif target == "dert" %}bu derdi{% else %}şikayet notunu{% endif %} inceler.</p>
+
+    <fieldset>
+      <legend>{{ form.reason.label }}</legend>
+      <div class="reason-list">
+        {% for radio in form.reason %}<span>{{ radio.tag }}<label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label></span>{% endfor %}
+      </div>
+      {{ form.reason.errors }}
+    </fieldset>
+    {% include "core/_field.html" with field=form.detail %}
+    {% include "core/_check.html" with field=form.also_block %}
+
+    <div class="form-actions">
+      <button class="btn btn-danger" type="submit">Şikayeti gönder</button>
+      <a href="{% url 'dertler:list' %}" data-back>Vazgeç</a>
+    </div>
+    <p class="small muted">Biri hayatının tehlikede olduğunu söylüyorsa beklemeden <a href="tel:112">112</a>'yi ara.</p>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Sohbetler · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="narrow page-head">
+  <h1>Sohbetler</h1>
+  <p class="muted">İsteklerini sen kabul edersin, sohbeti istediğin an bitirebilirsin.</p>
+</div>
+<div class="narrow">
+  {% if incoming %}
+  <section class="inbox-section">
+    <h2>Sana gelen istekler</h2>
+    <ul class="convo-list">{% for conv in incoming %}{% include "sohbet/_row.html" %}{% endfor %}</ul>
+  </section>
+  {% endif %}
+
+  <section class="inbox-section">
+    <h2>Devam eden sohbetler</h2>
+    {% if active %}
+      <ul class="convo-list">{% for conv in active %}{% include "sohbet/_row.html" %}{% endfor %}</ul>
+    {% else %}
+      <div class="empty">
+        <span class="big" aria-hidden="true">🫖</span>
+        <p>Henüz açık bir sohbetin yok. Bir derde “dert ortağı” olarak başlayabilirsin.</p>
+        <a class="btn" href="{% url 'dertler:list' %}">Dertlere göz at</a>
+      </div>
+    {% endif %}
+  </section>
+
+  {% if outgoing %}
+  <section class="inbox-section">
+    <h2>Gönderdiğin istekler</h2>
+    <ul class="convo-list">{% for conv in outgoing %}{% include "sohbet/_row.html" %}{% endfor %}</ul>
+  </section>
+  {% endif %}
+
+  {% if past %}
+  <section class="inbox-section">
+    <h2>Geçmiş</h2>
+    <ul class="convo-list">{% for conv in past %}{% include "sohbet/_row.html" %}{% endfor %}</ul>
+    <p class="small muted">Biten sohbetler gizliliğin için bir süre sonra otomatik olarak silinir.</p>
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

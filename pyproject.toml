@@ -1,0 +1,24 @@
+[project]
+name = "dert-ortagi"
+version = "0.1.0"
+description = "Dertlerini paylaş, aynı derdi yaşayanlarla eşleş, dinlemeye gönüllü insanlarla dertleş."
+requires-python = ">=3.12"
+license = "MIT"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = ["*/migrations/*", "staticfiles"]
+
+[tool.ruff.lint]
+# E/F/W: temel hatalar, I: import sırası, B: olası hatalar, UP: modern sözdizimi,
+# S: güvenlik (bandit kuralları), DJ: Django'ya özgü kurallar
+select = ["E", "F", "W", "I", "B", "UP", "S", "DJ"]
+
+[tool.ruff.lint.per-file-ignores]
+# Testlerde sabit parolalar ve assert kullanımı normaldir.
+"*/tests.py" = ["S101", "S105", "S106"]
+"core/testing.py" = ["S105", "S106"]
+
+[tool.bandit]
+exclude_dirs = ["*/migrations/*", "*/tests.py", "core/testing.py", ".venv", "venv"]

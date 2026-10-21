@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Engellediklerim · Dert Ortağı{% endblock %}
+
+{% block content %}
+<div class="narrow page-head">
+  <h1>Engellediklerim</h1>
+  <p class="muted">Engellediğin kişiler senin dertlerini göremez, sana istek gönderemez; sen de onlarınkini görmezsin. Engellediğin kişiye bundan haber verilmez.</p>
+</div>
+<div class="narrow">
+  {% if blocks %}
+    <ul class="convo-list">
+      {% for b in blocks %}
+        <li>
+          <div class="blocked-row">
+            <span class="grow"><span class="name">{{ b.label }}</span> <span class="small muted">{{ b.created_at|date:"j F Y" }}</span></span>
+            <form method="post" action="{% url 'guvenlik:unblock' b.pk %}">{% csrf_token %}
+              <button class="btn btn-small btn-quiet" type="submit">Engeli kaldır</button>
+            </form>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="empty"><span class="big" aria-hidden="true">🕊️</span><p>Kimseyi engellemedin. Umarız hep böyle kalır.</p></div>
+  {% endif %}
+</div>
+{% endblock %}

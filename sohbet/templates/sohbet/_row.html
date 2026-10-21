@@ -1,0 +1,12 @@
+{% load dert_tags %}{% with who=conv.display %}
+<li>
+  <a href="{{ conv.get_absolute_url }}">
+    <span class="avatar" aria-hidden="true">{{ who.avatar }}</span>
+    <span class="grow">
+      <span class="name">{{ who.name }}</span>
+      <span class="sub">{% if conv.dert %}{{ conv.dert.title }}{% else %}Silinmiş bir dert{% endif %} &ensp; {{ conv.updated_at|once }}</span>
+    </span>
+    {% if conv.unread %}<span class="dot" aria-label="Okunmamış mesaj var"></span>{% endif %}
+  </a>
+</li>
+{% endwith %}
