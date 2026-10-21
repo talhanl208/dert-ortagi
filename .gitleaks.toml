@@ -1,0 +1,7 @@
+# gitleaks yapılandırması: varsayılan kurallar + örnek dosya istisnası
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Gerçek sır içermeyen örnek ayar dosyası"
+paths = ['''\.env\.example$''']
