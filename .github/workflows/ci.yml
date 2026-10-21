@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Testler ve güvenlik taraması
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.13"]
+    env:
+      # Yalnızca CI için geçici bir anahtar; gerçek bir sır değildir.
+      DJANGO_SECRET_KEY: ci-${{ github.run_id }}-${{ github.run_attempt }}-yalnizca-test
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: Bağımlılıkları kur
+        run: pip install -r requirements-dev.txt
+
+      - name: Kod stili ve güvenlik kuralları (ruff)
+        run: |
+          ruff check .
+          ruff format --check .
+
+      - name: Statik güvenlik analizi (bandit)
+        run: bandit -c pyproject.toml -r . -q
+
+      - name: Bilinen açığı olan bağımlılık var mı? (pip-audit)
+        run: pip-audit -r requirements.txt
+
+      - name: Eksik migration var mı?
+        run: python manage.py makemigrations --check --dry-run
+
+      - name: Testler
+        run: python manage.py test
+
+      - name: Canlı ortam ayar kontrolü
+        env:
+          DJANGO_DEBUG: "False"
+          DJANGO_ALLOWED_HOSTS: dertortagi.example
+        run: python manage.py check --deploy --fail-level ERROR
+
+  secrets:
+    name: Sır taraması (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
