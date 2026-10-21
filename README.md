@@ -82,7 +82,7 @@
 
 | Katman | Kullanılan |
 |---|---|
-| Arka uç | Python 3.12+, Django 6.0 |
+| Arka uç | Python 3.12+, Django 6.1 |
 | Veritabanı | SQLite (geliştirme), PostgreSQL (isteğe bağlı) |
 | Ön yüz | Django şablonları, saf CSS, az miktarda saf JavaScript (çerçeve yok) |
 | Yazı tipi | Nunito (sunucudan servis edilir, üçüncü taraf istek yok) |
