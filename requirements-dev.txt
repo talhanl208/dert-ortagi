@@ -1,6 +1,6 @@
 -r requirements.txt
 
 # Kod kalitesi ve güvenlik taraması
-ruff>=0.17.1
+ruff>=0.17.2
 bandit[toml]>=1.9.4
 pip-audit>=2.10.1
